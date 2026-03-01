@@ -1,9 +1,4 @@
-.coveralls.yml
 /coverage
 /node_modules
 .printVersion
-/local.js
-/test
-/source/balle2.js
-/.nyc_output
 .buildNum.json

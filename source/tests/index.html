@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../index.js"></script>
+    </head>
+    <body>
+        <script>
+            Balle.one((res, rej) => {
+                setTimeout(() => {
+                    res('hello')
+                }, 3000)
+            }).then(r => {
+                var span = document.createElement('span');
+                span.appendChild(document.createTextNode(r));
+                document.body.appendChild(span)
+            });
+        </script>
+    </body>
+</html>

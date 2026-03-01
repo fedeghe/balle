@@ -1,14 +1,12 @@
-[![Coverage Status](https://coveralls.io/repos/github/fedeghe/balle/badge.svg?branch=master)](https://coveralls.io/github/fedeghe/balle?branch=master)
-
-[![Package Quality](https://npm.packagequality.com/shield/balle.svg)](https://packagequality.com/#?package=balle)
+[![codecov](https://codecov.io/gh/fedeghe/balle/graph/badge.svg?token=vGU3bnEngT)](https://codecov.io/gh/fedeghe/balle) ![Static Badge](https://img.shields.io/badge/Human%20coded-100%25-blue?style=plastic)
 
 <pre>
  _____ _____ __    __    _____
 | __  |  _  |  |  |  |  |   __|
 | __ -|     |  |__|  |__|   __|
-|_____|__|__|_____|_____|_____|
+|_____|__|__|_____|_____|_____| 
 
-...  I promise 
+v. $PACKAGE.version$
 </pre>
 
 

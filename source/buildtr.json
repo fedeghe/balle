@@ -1,9 +1,9 @@
 {
     "EXE": [
-        "mkdir -p test dist"
+        "mkdir -p tests dist"
     ],
-    "#source/test/*.js": "test",
-    "#source/test/*.html": "test",
+    "#source/tests/*.js": "tests",
+    "#source/tests/*.html": "tests",
     "#source/*.md": ".",
     "#source/index.js": "dist -plugins=malta-js-uglify[compress:true,output:{max_line_len:200}]...malta-header-comment[name:\"source/header.txt\"] -vars=source/vars.json"
 }

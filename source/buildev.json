@@ -1,9 +1,9 @@
 {
     "EXE": [
-        "mkdir -p test dist"
+        "mkdir -p tests dist"
     ],
-    "source/test/*.js": "test -plugins=malta-mocha",
-    "source/test/*.html": "test",
+    "source/tests/*.js": "tests -plugins=malta-jest[argz:'--rootDir=.']",
+    "source/tests/*.html": "tests",
     "source/*.md": ".",
-    "source/index.js": "dist -plugins=malta-mocha...malta-header-comment[name:\"source/header.txt\"] -vars=source/vars.json"
+    "source/index.js": "dist -plugins=malta-jest[argz:'--rootDir=.']...malta-header-comment[name:\"source/header.txt\"] -vars=source/vars.json"
 }

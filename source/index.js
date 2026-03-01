@@ -80,7 +80,8 @@ Balle.prototype.catch = function (rej) {
             this.rejectors.push(rej);
             break;
         case Balle.STATUSES.REJECTED:
-            return rej.call(this, this.cause);
+            rej.call(this, this.cause);
+            break;
     }
     return this;
 };
@@ -88,7 +89,11 @@ Balle.prototype.catch = function (rej) {
 Balle.prototype.finally = function (cb) {
     this.finalizers.push(cb);
     this.status !== Balle.STATUSES.PENDING
-    && Balle.roll(this.finalizers, 'value', this);
+    && Balle.roll(
+        this.finalizers,
+        this.status === Balle.STATUSES.REJECTED ? 'cause' : 'value',
+        this
+    );
     return this;
 };
 

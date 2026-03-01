@@ -1,5 +1,4 @@
-var assert = require('assert'),
-    Balle = require('../dist/index.js');
+const Balle = require('../dist/index.js');
 
 var RESULTS = {
     STRING: 'promise resolved',
@@ -17,8 +16,8 @@ describe('Solving', () => {
                 done();
             });
 
-            assert.equal(resolvingPromise.status, Balle.STATUSES.FULFILLED);
-            assert.equal(resolvingPromise.value, RESULTS.STRING);
+            expect(resolvingPromise.status).toBe(Balle.STATUSES.FULFILLED);
+            expect(resolvingPromise.value).toBe(RESULTS.STRING);
         });
 
         it('resolve straigth and then', done => {
@@ -26,9 +25,9 @@ describe('Solving', () => {
                 resolve(RESULTS.STRING);
                 done();
             });
-            resolvingPromise.then(result => assert.equal(result, RESULTS.STRING));
-            assert.equal(resolvingPromise.status, Balle.STATUSES.FULFILLED);
-            assert.equal(resolvingPromise.value, RESULTS.STRING);
+            resolvingPromise.then(result => expect(result).toBe(RESULTS.STRING));
+            expect(resolvingPromise.status).toBe(Balle.STATUSES.FULFILLED);
+            expect(resolvingPromise.value).toBe(RESULTS.STRING);
         });
 
         it('resolve asynch ', done => {
@@ -36,7 +35,7 @@ describe('Solving', () => {
                 setTimeout(() => resolve(RESULTS.STRING), 100);
             });
             resolvingPromise.then(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             });
         });
@@ -48,7 +47,7 @@ describe('Solving', () => {
             resolvingPromise.then(result => {
                 // whatever
             }).finally(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             });
         });
@@ -60,7 +59,7 @@ describe('Solving', () => {
             resolvingPromise.then(result => {
                 // whatever
             }).finally(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             });
         });
@@ -73,9 +72,9 @@ describe('Solving', () => {
             });
             // as u can see then has nothing to do with https://promisesaplus.com/
             resolvingPromise.then(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
             }).finally(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             });
         });
@@ -88,7 +87,7 @@ describe('Solving', () => {
             resolvingPromise.then(() => {
                 throw 'Never executed';
             }, (cause) => {
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(cause).toBe(RESULTS.CAUSE);
                 done();
             })
         });
@@ -101,10 +100,10 @@ describe('Solving', () => {
             resolvingPromise.then(() => {
                 throw 'Never executed';
             }).catch((cause) => {
-                assert.equal(check++, 0);
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(check++).toBe(0);
+                expect(cause).toBe(RESULTS.CAUSE);
             }).finally(cause => {
-                assert.equal(check, 1);
+                expect(check).toBe(1);
                 done();
             });
         });
@@ -117,7 +116,7 @@ describe('Solving', () => {
             resolvingPromise.launch(executor).then(() => {
                 throw 'Never executed';
             }).catch((cause) => {
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(cause).toBe(RESULTS.CAUSE);
             }).finally(cause => {
                 done();
             });
@@ -127,7 +126,7 @@ describe('Solving', () => {
             const resolvingPromise = Balle.one();
             resolvingPromise.resolve('this is the value');
             resolvingPromise.then(r => {
-                assert.equal(r, 'this is the value');
+                expect(r).toBe('this is the value');
                 done();
             });
         });
@@ -136,7 +135,7 @@ describe('Solving', () => {
             const rejectingPromise = Balle.one();
             rejectingPromise.reject('this is the value');
             rejectingPromise.catch(r => {
-                assert.equal(r, 'this is the value');
+                expect(r).toBe('this is the value');
                 done();
             });
         });
@@ -152,8 +151,8 @@ describe('Rejection', () => {
                 reject(RESULTS.STRING);
                 done();
             });
-            assert.equal(resolvingPromise.status, Balle.STATUSES.REJECTED);
-            assert.equal(resolvingPromise.value, undefined);
+            expect(resolvingPromise.status).toBe(Balle.STATUSES.REJECTED);
+            expect(resolvingPromise.value == undefined).toBe(true);
         });
 
         it('reject asynch ', done => {
@@ -164,12 +163,12 @@ describe('Rejection', () => {
             });
             resolvingPromise.then(result => {
                 console.log('NEVER EXEC SINCE REJECTED!!!!!')
-                assert.equal(result, 'irrelevant');
+                expect(result).toBe('irrelevant');
                 done();
             }).catch((cause) => {
-                assert.equal(resolvingPromise.status, Balle.STATUSES.REJECTED);
-                assert.equal(resolvingPromise.result, undefined);
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(resolvingPromise.status).toBe(Balle.STATUSES.REJECTED);
+                expect(resolvingPromise.result).toBe(undefined);
+                expect(cause).toBe(RESULTS.CAUSE);
                 done();
             });
         });
@@ -196,9 +195,9 @@ describe('Static section', () => {
                     }, 300);
                 })
             ]).then(res => {
-                assert.equal(res[0], 100);
-                assert.equal(res[1], 101);
-                assert.equal(res[2], 102);
+                expect(res[0]).toBe(100);
+                expect(res[1]).toBe(101);
+                expect(res[2]).toBe(102);
             }).finally(res => {
                 done();
             });
@@ -210,25 +209,25 @@ describe('Static section', () => {
                 new Balle((resolve, reject) => setTimeout(() => resolve(101), 200)),
                 new Balle((resolve, reject) => setTimeout(() => resolve(300), 300))
             ]).catch(cause => {
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(cause).toBe(RESULTS.CAUSE);
                 done();
             }).then(res => {
                 throw 'This will not run';
             }).finally(res => {
                 // FINALLY could break
-                assert.equal(res, RESULTS.CAUSE);
+                expect(res).toBe(RESULTS.CAUSE);
             });
         });
 
         it('does not solves all cause not iterable', done => {
             Balle.all({}).catch(cause => {
-                assert.equal(cause, RESULTS.ALL_NOT_ITERABLE);
+                expect(cause).toBe(RESULTS.ALL_NOT_ITERABLE);
                 done();
             }).then(res => {
                 throw 'This will not run';
             }).finally(res => {
                 // FINALLY could break
-                assert.equal(res, RESULTS.ALL_NOT_ITERABLE)
+                expect(res).toBe(RESULTS.ALL_NOT_ITERABLE)
             });
         });
     });
@@ -252,7 +251,7 @@ describe('Static section', () => {
                     }, 300);
                 })
             ]).then((res) => {
-                assert.equal(res, 303);
+                expect(res).toBe(303);
                 done();
             });
         });
@@ -277,20 +276,20 @@ describe('Static section', () => {
             ]).then(res => {
                 throw 'This will not run';
             }).catch((cause) => {
-                assert.equal(cause, 'an error occurred handling the given value: 201');
+                expect(cause).toBe('an error occurred handling the given value: 201');
                 done();
             });
         });
 
         it('does not solves all cause not iterable', done => {
             Balle.chain({}).catch(cause => {
-                assert.equal(cause, RESULTS.CHAIN_NOT_ITERABLE);
+                expect(cause).toBe(RESULTS.CHAIN_NOT_ITERABLE);
                 done();
             }).then(res => {
                 throw 'This will not run';
             }).finally(res => {// done();
                 // FINALLY could break
-                assert.equal(res, RESULTS.CHAIN_NOT_ITERABLE);
+                expect(res).toBe(RESULTS.CHAIN_NOT_ITERABLE);
             });
         });
     })
@@ -314,9 +313,9 @@ describe('Static section', () => {
                     }, 300);
                 })
             ]).then(res => {
-                assert.equal(res, 1000);
+                expect(res).toBe(1000);
             }).finally(res => {
-                assert.equal(res, 1000);
+                expect(res).toBe(1000);
                 done();
             });
         });
@@ -340,21 +339,21 @@ describe('Static section', () => {
             ]).then(() => {
                 throw new Error('Never thrown');
             }).catch(res => {
-                assert.equal(res, 1000);
+                expect(res).toBe(1000);
                 done();
             }).finally(res => {
-                assert.equal(res, 1000);
+                expect(res).toBe(1000);
             });
         });
         it('does not solves all cause not iterable', (done) => {
             Balle.race({}).catch(cause => {
-                assert.equal(cause, RESULTS.RACE_NOT_ITERABLE);
+                expect(cause).toBe(RESULTS.RACE_NOT_ITERABLE);
                 done()
             }).then(res => {
                 throw 'This will not run';
             }).finally(res => {// done();
                 // FINALLY could break
-                assert.equal(res, RESULTS.RACE_NOT_ITERABLE);
+                expect(res).toBe(RESULTS.RACE_NOT_ITERABLE);
             });
         });
     });
@@ -362,13 +361,13 @@ describe('Static section', () => {
     describe('Balle.reject', () => {
         it('rejects as expected', (done) => {
             Balle.reject(RESULTS.CAUSE).catch(cause => {
-                assert.equal(cause, RESULTS.CAUSE);
+                expect(cause).toBe(RESULTS.CAUSE);
                 done();
             }).then(res => {
                 throw 'This will not run';
             }).finally(res => {// done();
                 // FINALLY could break
-                assert.equal(res, RESULTS.CAUSE);
+                expect(res).toBe(RESULTS.CAUSE);
             });
         });
     });
@@ -381,22 +380,22 @@ describe('Static section', () => {
                 }, 200);
             });
             Balle.resolve(p).then(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             }).finally(res =>  {// done();
                 // FINALLY could break
-                assert.equal(res, RESULTS.STRING);
+                expect(res).toBe(RESULTS.STRING);
             });
         });
         it('resolve as expected passing a value', (done) => {
             var p = new Balle();
             Balle.resolve(RESULTS.STRING)
             .then(result => {
-                assert.equal(result, RESULTS.STRING);
+                expect(result).toBe(RESULTS.STRING);
                 done();
             }).finally(res =>  {// done();
                 // FINALLY could break
-                assert.equal(res, RESULTS.STRING);
+                expect(res).toBe(RESULTS.STRING);
             });
         });
     });
@@ -408,7 +407,7 @@ describe('Static section', () => {
                 reject(200);
                 
             }).then(res => {
-                assert.equal(res, RESULTS.STRING);
+                expect(res).toBe(RESULTS.STRING);
                 done();
             });
         });
@@ -417,7 +416,7 @@ describe('Static section', () => {
             .then(res => {
                 throw 'This will not run';
             }).catch(message => {
-                assert.equal(!!message.match(/is\snot\sa\sfunction$/), true);
+                expect(!!message.match(/is\snot\sa\sfunction$/)).toBe(true);
                 done();
             });
         });
@@ -425,19 +424,19 @@ describe('Static section', () => {
 
     describe('utilities', () => {
         it('isFunc', () => {
-            assert.equal(Balle._isFunc(() => {}), true);
-            assert.equal(Balle._isFunc({}), false);
-            assert.equal(Balle._isFunc(1), false);
-            assert.equal(Balle._isFunc('function'), false);
-            assert.equal(Balle._isFunc([1,2,3,4,5]), false);  
+            expect(Balle._isFunc(() => {})).toBe(true);
+            expect(Balle._isFunc({})).toBe(false);
+            expect(Balle._isFunc(1)).toBe(false);
+            expect(Balle._isFunc('function')).toBe(false);
+            expect(Balle._isFunc([1,2,3,4,5])).toBe(false);  
         });
         it('isIterable', () => {
-            assert.equal(Balle._isIterable(() => {}), false);
-            assert.equal(Balle._isIterable({}), false);
-            assert.equal(Balle._isIterable(1), false);
-            assert.equal(Balle._isIterable('function'), true);
-            assert.equal(Balle._isIterable(null), false);
-            assert.equal(Balle._isIterable([1, 2, 3, 4, 5]), true);
+            expect(Balle._isIterable(() => {})).toBe(false);
+            expect(Balle._isIterable({})).toBe(false);
+            expect(Balle._isIterable(1)).toBe(false);
+            expect(Balle._isIterable('function')).toBe(true);
+            expect(Balle._isIterable(null)).toBe(false);
+            expect(Balle._isIterable([1, 2, 3, 4, 5])).toBe(true);
         });
     });
 
